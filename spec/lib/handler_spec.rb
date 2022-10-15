@@ -6,6 +6,9 @@ require_relative '../../lib/core/subscription'
 require_relative '../../lib/config/topup/topup'
 require_relative '../../lib/config/topup/device_4_limit'
 require_relative '../../lib/config/topup/device_10_limit'
+require_relative '../../lib/factory/topup'
+require_relative '../../lib/factory/category'
+require_relative '../../lib/utils/date'
 
 describe Handler do
   describe '#initialize' do
@@ -185,7 +188,7 @@ describe Handler do
       mock_topup_instance = double('topup factory')
 
       subject.instance_variable_set(:@sub, mock_sub)
-      allow_any_instance_of(Handler).to receive(:top_up_instance) { mock_topup_instance }
+      allow_any_instance_of(Factory).to receive(:top_up) { mock_topup_instance }
       allow(mock_sub).to receive(:start_date).and_return('INVALID_DATE')
 
       result = subject.send(:add_topup, 'FOUR_DEVICE', 2)
@@ -196,7 +199,7 @@ describe Handler do
       mock_sub = double('sub intance')
 
       subject.instance_variable_set(:@sub, mock_sub)
-      allow_any_instance_of(Handler).to receive(:top_up_instance) { mock_topup_instance }
+      allow_any_instance_of(Factory).to receive(:top_up) { mock_topup_instance }
       allow(mock_sub).to receive(:start_date).and_return(Date.parse('05-02-2022'))
       allow(mock_sub).to receive(:top_up?).and_return(true)
 
@@ -210,7 +213,7 @@ describe Handler do
       mock_topup_instance = double('topup factory')
 
       subject.instance_variable_set(:@sub, mock_sub)
-      allow_any_instance_of(Handler).to receive(:top_up_instance) { mock_topup_instance }
+      allow_any_instance_of(Factory).to receive(:top_up) { mock_topup_instance }
       allow(mock_plan).to receive(:new).and_return('TOUP instance')
       allow(mock_sub).to receive(:add_top_up).and_return('Added topup plan')
       allow(mock_sub).to receive(:start_date).and_return(Date.parse('05-02-2022'))
@@ -223,36 +226,12 @@ describe Handler do
 end
 
 describe Handler do
-  describe '#top_up_instance' do
-    it 'returns TopUpDeviceLimit4 instance for FOUR_DEVICE plan' do
-      result = subject.send(:top_up_instance, 'FOUR_DEVICE', 1)
-      expect(result).to be_an_instance_of(Config::TopUpDeviceLimit4)
-    end
-
-    it 'returns TopUpDeviceLimit10 instance for TEN_DEVICE plan' do
-      result = subject.send(:top_up_instance, 'TEN_DEVICE', 2)
-      expect(result).to be_a(Config::TopUpDeviceLimit10)
-    end
-
-    it 'returns TopUp instance for UNKNOWN plan' do
-      result = subject.send(:top_up_instance, 'UNKNOWN', 2)
-      expect(result).to be_an_instance_of(Config::TopUp)
-    end
-
-    it 'returns TopUp instance for no named plan' do
-      result = subject.send(:top_up_instance, nil, 3)
-      expect(result).to be_an_instance_of(Config::TopUp)
-    end
-  end
-end
-
-describe Handler do
   describe '#add_subscription' do
     it 'returns invalid date' do
       mock_sub = double('sub intance')
 
       mock_plan_instance = double('plan factory')
-      allow_any_instance_of(Handler).to receive(:plan_category_factory) { mock_plan_instance }
+      allow_any_instance_of(Factory).to receive(:category) { mock_plan_instance }
       allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
 
       subject.instance_variable_set(:@sub, mock_sub)
@@ -266,7 +245,7 @@ describe Handler do
       mock_sub = double('sub intance')
 
       mock_plan_instance = double('plan factory')
-      allow_any_instance_of(Handler).to receive(:plan_category_factory) { mock_plan_instance }
+      allow_any_instance_of(Factory).to receive(:category) { mock_plan_instance }
       allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
 
       subject.instance_variable_set(:@sub, mock_sub)
@@ -281,7 +260,7 @@ describe Handler do
       mock_sub = double('sub intance')
 
       mock_plan_instance = double('plan factory')
-      allow_any_instance_of(Handler).to receive(:plan_category_factory) { mock_plan_instance }
+      allow_any_instance_of(Factory).to receive(:category) { mock_plan_instance }
       allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
 
       subject.instance_variable_set(:@sub, mock_sub)
@@ -297,34 +276,10 @@ describe Handler do
 end
 
 describe Handler do
-  describe '#plan_category_factory' do
-    it 'returns MusicPlan instance for MUSIC category' do
-      result = subject.send(:plan_category_factory, 'MUSIC')
-      expect(result).to be_an_instance_of(Config::Plan::MusicPlan)
-    end
-
-    it 'returns VideoPlan instance for VIDEO category' do
-      result = subject.send(:plan_category_factory, 'VIDEO')
-      expect(result).to be_a(Config::Plan::VideoPlan)
-    end
-
-    it 'returns PodcastPlan instance for PODCAST category' do
-      result = subject.send(:plan_category_factory, 'PODCAST')
-      expect(result).to be_an_instance_of(Config::Plan::PodcastPlan)
-    end
-
-    it 'returns no instance for CONCERT category' do
-      result = subject.send(:plan_category_factory, 'CONCERT')
-      expect(result).to be_nil
-    end
-  end
-end
-
-describe Handler do
   describe '#add_date' do
     # TODO: mock `sub` instance varible
     it 'sets date object on `sub`, when valid date is provided' do
-      allow_any_instance_of(Handler).to receive(:valid_subscription_date?) { Date.parse('05-02-2022') }
+      allow_any_instance_of(Utils).to receive(:valid_date?) { Date.parse('05-02-2022') }
 
       subject.send(:add_date, '05-02-2022')
       expect(subject.sub.start_date).to eql Date.parse('05-02-2022')
@@ -332,38 +287,10 @@ describe Handler do
 
     # TODO: mock `sub` instance varible
     it 'sets INVALID_DATE on `sub`, when invalid date is provided' do
-      allow_any_instance_of(Handler).to receive(:valid_subscription_date?) { false }
+      allow_any_instance_of(Utils).to receive(:valid_date?) { false }
 
       subject.send(:add_date, '05-19-2022')
       expect(subject.sub.start_date).to eql 'INVALID_DATE'
-    end
-  end
-end
-
-describe Handler do
-  describe '#valid_subscription_date' do
-    context 'returns valid date string' do
-      it 'with default format' do
-        result = subject.send(:valid_subscription_date?, '20-02-2022')
-        expect(result).to eq Date.parse('20-02-2022')
-      end
-
-      it 'with custom format' do
-        result = subject.send(:valid_subscription_date?, '20, 2022 02', '%d, %Y %m')
-        expect(result).to eq Date.parse('20-02-2022')
-      end
-    end
-
-    context 'returns false for invalid input' do
-      it 'with default format' do
-        result = subject.send(:valid_subscription_date?, '20-22-2022')
-        expect(result).to be_falsy
-      end
-
-      it 'with custom format' do
-        result = subject.send(:valid_subscription_date?, '32, 2022 02', '%d, %Y %m')
-        expect(result).to be_falsy
-      end
     end
   end
 end

@@ -1,7 +1,9 @@
-require './geektrust.rb'
+# frozen_string_literal: true
+
+require './geektrust'
 require 'rspec/core/rake_task'
 
-task :default do |t, args|
+task :default do |_t, _args|
   main
 end
 

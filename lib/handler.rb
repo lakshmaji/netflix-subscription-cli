@@ -1,14 +1,9 @@
 # frozen_string_literal: true
 
-require 'date'
-
 require_relative 'core/subscription'
-require_relative 'config/plan/music'
-require_relative 'config/plan/podcast'
-require_relative 'config/plan/video'
-require_relative 'config/topup/topup'
-require_relative 'config/topup/device_4_limit'
-require_relative 'config/topup/device_10_limit'
+require_relative 'utils/date'
+require_relative 'factory/category'
+require_relative 'factory/topup'
 
 # This will convert each line in a file into a meaningful command and optional data.
 # perform actions for each command given.
@@ -64,24 +59,13 @@ class Handler
 
     return 'ADD_TOPUP_FAILED DUPLICATE_TOPUP' if sub.top_up?
 
-    plan = top_up_instance(name, months)
+    plan = Factory.top_up(name, months)
     sub.add_top_up(plan)
-  end
-
-  def top_up_instance(name, months)
-    case name
-    when 'FOUR_DEVICE'
-      Config::TopUpDeviceLimit4.new months
-    when 'TEN_DEVICE'
-      Config::TopUpDeviceLimit10.new months
-    else
-      Config::TopUp.new months
-    end
   end
 
   # 'music', 'premium'
   def add_subscription(category, plan)
-    plan_category = plan_category_factory(category)
+    plan_category = Factory.category(category)
 
     # call plan on the specific category
     plan_category.method(plan.downcase.to_sym).call
@@ -93,31 +77,14 @@ class Handler
     sub.add_subscribed_plan(plan_category)
   end
 
-  def plan_category_factory(category)
-    case category
-    when 'MUSIC'
-      Config::Plan::MusicPlan.new
-    when 'VIDEO'
-      Config::Plan::VideoPlan.new
-    when 'PODCAST'
-      Config::Plan::PodcastPlan.new
-    end
-  end
-
   # '05-02-2022'
   def add_date(input_date)
-    valid_date = valid_subscription_date? input_date
+    valid_date = Utils.valid_date? input_date
     unless valid_date
       sub.add_starts_on('INVALID_DATE')
       return 'INVALID_DATE'
     end
 
     sub.add_starts_on(valid_date)
-  end
-
-  def valid_subscription_date?(str, format = '%d-%m-%Y')
-    Date.strptime(str, format)
-  rescue StandardError
-    false
   end
 end

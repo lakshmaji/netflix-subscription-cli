@@ -16,7 +16,6 @@ def main
   compute_subscription(input.cmds)
 end
 
-
 # handle business logic
 def compute_subscription(cmds)
   handler = Handler.new
