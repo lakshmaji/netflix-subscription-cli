@@ -44,7 +44,7 @@ describe Config::Plan::PodcastPlan do
     end
   end
 
-  it 'should be a sub class of BasePlan' do
+  it 'should be a subscription class of BasePlan' do
     expect(described_class.superclass).to be Config::Plan::BasePlan
   end
 end

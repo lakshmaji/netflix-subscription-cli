@@ -8,7 +8,7 @@ describe Constants do
     before(:all) do
       @mock_music_plan_personal = double('music personal plan')
       @mock_video_plan_premium = double('video premium plan')
-      @mock_sub = double('sub intance')
+      @mock_sub = double('subscription intance')
       @mock_category_music = double('music category')
       @mock_category_video = double('video category')
     end
@@ -28,7 +28,7 @@ describe Constants do
         ]
       )
 
-      subject.instance_variable_set(:@sub, @mock_sub)
+      subject.instance_variable_set(:@subscription, @mock_sub)
     end
     it 'appends available subscriptions' do
       result = String.new

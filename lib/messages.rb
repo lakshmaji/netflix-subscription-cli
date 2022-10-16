@@ -13,10 +13,10 @@ class Constants
   ADD_SUBSCRIPTION_FAILED_INVALID_DATE = 'ADD_SUBSCRIPTION_FAILED INVALID_DATE'
   ADD_SUBSCRIPTION_FAILED_DUPLICATE_CATEGORY = 'ADD_SUBSCRIPTION_FAILED DUPLICATE_CATEGORY'
 
-  def self.renewal_remainder(sub)
+  def self.renewal_remainder(subscription)
     result = String.new ''
-    sub.subscribed_plans.each do |po|
-      result << "RENEWAL_REMINDER #{po.class.category.upcase} #{po.renewal_date(sub.start_date)}\n"
+    subscription.subscribed_plans.each do |po|
+      result << "RENEWAL_REMINDER #{po.class.category.upcase} #{po.renewal_date(subscription.start_date)}\n"
     end
     result
   end

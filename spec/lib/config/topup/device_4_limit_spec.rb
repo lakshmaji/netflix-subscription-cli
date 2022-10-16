@@ -5,7 +5,7 @@ require_relative '../../../../lib/config/topup/device_four'
 
 describe Config::TopUpDeviceLimit4 do
   context 'inherit' do
-    it 'should be a sub class of TopUp' do
+    it 'should be a subscription class of TopUp' do
       expect(Config::TopUpDeviceLimit4.superclass).to be Config::TopUp
     end
   end
