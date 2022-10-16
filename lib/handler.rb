@@ -35,7 +35,7 @@ class Handler
     when Constants::ADD_TOPUP
       manager.add_topup(line[:name], line[:months])
     when Constants::PRINT_RENEWAL_DETAILS
-      manager.print_info
+      manager.print_info String.new ''
     end
   end
 end

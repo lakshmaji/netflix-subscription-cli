@@ -20,7 +20,7 @@ describe Core::Manage do
         subject.instance_variable_set(:@sub, mock_sub)
         allow(mock_sub).to receive(:subscribed_plans).and_return([])
 
-        result = subject.send(:print_info)
+        result = subject.print_info String.new
         expect(result).to eql(Constants::SUBSCRIPTIONS_NOT_FOUND)
       end
     end
@@ -35,7 +35,7 @@ describe Core::Manage do
 
         allow(Constants).to receive(:renewal_remainder).and_return("renewal date for subscriptions.\n")
 
-        result = subject.send(:print_info)
+        result = subject.send(:print_info, String.new)
         expect(result).to eql("renewal date for subscriptions.\nRENEWAL_AMOUNT 600\n")
       end
     end
@@ -92,8 +92,8 @@ describe Core::Manage do
       mock_sub = double('sub intance')
 
       mock_plan_instance = double('plan factory')
-      allow_any_instance_of(Factory).to receive(:category) { mock_plan_instance }
-      allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
+      allow_any_instance_of(Factory).to receive(:category_plan) { mock_plan_instance }
+      # allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
 
       subject.instance_variable_set(:@sub, mock_sub)
       allow(mock_sub).to receive(:start_date).and_return(Constants::INVALID_DATE)
@@ -106,8 +106,8 @@ describe Core::Manage do
       mock_sub = double('sub intance')
 
       mock_plan_instance = double('plan factory')
-      allow_any_instance_of(Factory).to receive(:category) { mock_plan_instance }
-      allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
+      allow_any_instance_of(Factory).to receive(:category_plan) { mock_plan_instance }
+      # allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
 
       subject.instance_variable_set(:@sub, mock_sub)
       allow(mock_sub).to receive(:start_date) { Date.today }
@@ -121,8 +121,8 @@ describe Core::Manage do
       mock_sub = double('sub intance')
 
       mock_plan_instance = double('plan factory')
-      allow_any_instance_of(Factory).to receive(:category) { mock_plan_instance }
-      allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
+      allow_any_instance_of(Factory).to receive(:category_plan) { mock_plan_instance }
+      # allow(mock_plan_instance).to receive(:free).and_return('ADD FREE PLAN')
 
       subject.instance_variable_set(:@sub, mock_sub)
       allow(mock_sub).to receive(:add_top_up).and_return('Add topup plan')
@@ -175,7 +175,7 @@ describe Core::Manage do
         subject.instance_variable_set(:@sub, mock_sub)
         allow(mock_sub).to receive(:subscribed_plans).and_return([])
 
-        result = subject.send(:print_info)
+        result = subject.send(:print_info, String.new)
         expect(result).to eql(Constants::SUBSCRIPTIONS_NOT_FOUND)
       end
     end
@@ -189,7 +189,7 @@ describe Core::Manage do
         allow(mock_sub).to receive(:total_price) { 600 }
         allow(Constants).to receive(:renewal_remainder).and_return("renewal date for subscriptions.\n")
 
-        result = subject.send(:print_info)
+        result = subject.print_info String.new
         expect(result).to eql("renewal date for subscriptions.\nRENEWAL_AMOUNT 600\n")
       end
     end
