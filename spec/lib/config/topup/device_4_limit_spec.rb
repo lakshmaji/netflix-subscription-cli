@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
-require_relative '../../../../lib/config/topup/device_4_limit'
+require_relative '../../../../lib/config/topup/device_four'
 
 describe Config::TopUpDeviceLimit4 do
   context 'inherit' do

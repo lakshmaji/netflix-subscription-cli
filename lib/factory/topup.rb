@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require_relative '../config/topup/topup'
-require_relative '../config/topup/device_4_limit'
-require_relative '../config/topup/device_10_limit'
+require_relative '../config/topup/device_four'
+require_relative '../config/topup/device_ten'
 
+# Factory method, which will return instance for topup device limit
 module Factory
   def top_up(name, months)
     case name

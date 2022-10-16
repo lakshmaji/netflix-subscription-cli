@@ -4,6 +4,7 @@ require_relative '../config/plan/music'
 require_relative '../config/plan/podcast'
 require_relative '../config/plan/video'
 
+# Factory method, which will return instance for subscription category
 module Factory
   def category(category)
     case category

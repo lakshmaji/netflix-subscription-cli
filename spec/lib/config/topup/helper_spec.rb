@@ -3,18 +3,12 @@
 require 'rspec'
 require_relative '../../../../lib/config/topup/helper'
 
-# This is a helper class to test out the helper mixin.
-class Mock
-  include Config::ToupHelper
-
-  def compute(months, price)
-    cost(months, price)
-  end
-end
 describe Config::ToupHelper do
+  let(:mock_class) { Class.new { extend Config::ToupHelper } }
+
   describe '#cost' do
     it 'returns total' do
-      result = Mock.new.compute(13, 2)
+      result = mock_class.cost(13, 2)
       expect(result).to eql(26)
     end
   end

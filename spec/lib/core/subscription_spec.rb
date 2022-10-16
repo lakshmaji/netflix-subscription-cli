@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rspec'
-
 require_relative '../../../lib/core/subscription'
 
 describe Core::Subscription do
