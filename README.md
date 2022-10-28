@@ -1,10 +1,12 @@
 # Netflix kind of subscription tool
 
+[![build](https://github.com/lakshmaji/netflix-subscription-cli/actions/workflows/build.yml/badge.svg)](https://github.com/lakshmaji/netflix-subscription-cli/actions/workflows/build.yml) [![Tests](https://github.com/lakshmaji/netflix-subscription-cli/actions/workflows/test.yml/badge.svg)](https://github.com/lakshmaji/netflix-subscription-cli/actions/workflows/test.yml) [![lint](https://github.com/lakshmaji/netflix-subscription-cli/actions/workflows/lint.yml/badge.svg)](https://github.com/lakshmaji/netflix-subscription-cli/actions/workflows/lint.yml) [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop) [![Ruby Style Guide](https://img.shields.io/badge/code_style-community-brightgreen.svg)](https://rubystyle.guide)
+
 This is a sample CLI application, which tries to illustrate the concepts of subscription based on a particular category and devise limits. This is written in Ruby programming following principles of the Test Driven Development (TDD) approach.
 
 ## Pre-requisites
 
-* Ruby 3.0.2
+* Ruby 3.1.2
 * Bundler 2.2.22
 
 ## Development
