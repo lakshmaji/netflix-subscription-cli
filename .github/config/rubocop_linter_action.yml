@@ -1,0 +1,6 @@
+check_name: "Lint Results"
+
+versions:
+  - rubocop
+
+rubocop_config_path: "./../../rubocop.yml"

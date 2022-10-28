@@ -11,16 +11,12 @@ import { normalisePath } from "./util"
 const MAX_COMMENT_CHARS = 65536
 
 async function main({ github, context, core }) {
-	// const token = core.getInput("github-token")
 	const workingDir = "./";
 	const lcovFile = path.join(workingDir, "coverage/lcov/ruby-cli-genesis.lcov")
-	// const baseFile = core.getInput("lcov-base")
 	const baseFile = path.join(workingDir, "coverage/lcov.main")
-	// const shouldFilterChangedFiles = core.getInput("filter-changed-files").toLowerCase() === "true"
 	const shouldFilterChangedFiles = true
 	const shouldDeleteOldComments =
 		core.getInput("delete-old-comments").toLowerCase() === "true"
-	// const title = core.getInput("title")
 	const title = "Coverage report"
 
 	const raw = await fs.readFile(lcovFile, "utf-8").catch(err => null)
