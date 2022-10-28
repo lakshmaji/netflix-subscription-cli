@@ -1,0 +1,4 @@
+coverage/*
+!coverage/lcov.main
+.github/actions/coverage/node_modules
+**/node_modules/

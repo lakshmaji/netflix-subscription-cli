@@ -1,0 +1,44 @@
+name: Unit Tests
+  
+on:
+  pull_request:
+    branches:
+    - main
+    paths:
+      - 'lib/**/**/*.rb'
+      - 'main.rb'
+      - 'spec/**'
+      - '.rubocop.yml'
+      - 'Gemfile'
+      - 'Rakefile'
+      
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1.2"
+      - name: Install dependencies (for rspec)
+        run: |
+          bundle install
+      - name: Run tests
+        run: |
+          rspec .
+      - name: Add code coverage report lcov
+        uses: ./.github/actions/coverage
+        with:
+            lcov-file: coverage/lcov/ruby-cli.lcov
+            github-token: ${{ secrets.github_token }}
+            lcov-base: coverage/lcov.main
+
