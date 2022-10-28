@@ -18,10 +18,10 @@ module Core
     def parse(line)
       cmd, *options = line.split
       case cmd
-      when Constants::START_SUBSCRIPTION then { cmd: cmd, date: options.first }
-      when Constants::ADD_SUBSCRIPTION then { cmd: cmd, category: options.first, plan: options.last }
-      when Constants::ADD_TOPUP then { cmd: cmd, name: options.first, months: options.last.to_i }
-      when Constants::PRINT_RENEWAL_DETAILS then { cmd: cmd }
+      when Constants::START_SUBSCRIPTION then { cmd:, date: options.first }
+      when Constants::ADD_SUBSCRIPTION then { cmd:, category: options.first, plan: options.last }
+      when Constants::ADD_TOPUP then { cmd:, name: options.first, months: options.last.to_i }
+      when Constants::PRINT_RENEWAL_DETAILS then { cmd: }
       else
         raise "Error: invalid command specified (#{line})"
       end

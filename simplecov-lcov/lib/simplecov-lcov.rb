@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'pathname'
 require_relative 'simple_cov_lcov/configuration'
 
-fail 'simplecov-lcov requires simplecov' unless defined?(SimpleCov)
+raise 'simplecov-lcov requires simplecov' unless defined?(SimpleCov)
 
 module SimpleCov
   module Formatter
@@ -61,6 +63,7 @@ module SimpleCov
 
       def create_output_directory!
         return if Dir.exist?(output_directory)
+
         FileUtils.mkdir_p(output_directory)
       end
 
@@ -78,7 +81,7 @@ module SimpleCov
 
       def output_filename(filename)
         filename.gsub("#{SimpleCov.root}/", '').gsub('/', '-')
-          .tap { |name| name << '.lcov' }
+                .tap { |name| name << '.lcov' }
       end
 
       def format_file(file)
@@ -91,12 +94,12 @@ module SimpleCov
 
         if SimpleCov.branch_coverage?
           branch_data = format_branches(file)
-          pieces << branch_data if branch_data.length > 0
+          pieces << branch_data if branch_data.length.positive?
           pieces << "BRF:#{file.total_branches.length}"
           pieces << "BRH:#{file.covered_branches.length}"
         end
-        pieces << "end_of_record"
-        pieces << ""
+        pieces << 'end_of_record'
+        pieces << ''
         pieces.join("\n")
       end
 
@@ -125,7 +128,7 @@ module SimpleCov
       end
 
       def format_branch(branch, branch_idx)
-        taken = branch.coverage == 0 ? '-' : branch.coverage
+        taken = branch.coverage.zero? ? '-' : branch.coverage
         "BRDA:#{branch.report_line},0,#{branch_idx},#{taken}"
       end
 
