@@ -1,4 +1,5 @@
-import lcov from "lcov-parse"
+// import lcov from "lcov-parse"
+import lcov from "./cov-parser"
 
 // Parse lcov string into lcov data
 export function parse(data) {

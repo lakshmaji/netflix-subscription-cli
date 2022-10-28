@@ -5,7 +5,7 @@ on:
     branches:
     - main
     paths:
-      - 'lib/**'
+      - 'lib/**/**/*.rb'
       - 'main.rb'
       - 'spec/**'
       - '.rubocop.yml'
@@ -41,3 +41,4 @@ jobs:
             lcov-file: coverage/lcov/ruby-cli.lcov
             github-token: ${{ secrets.github_token }}
             lcov-base: coverage/lcov.main
+

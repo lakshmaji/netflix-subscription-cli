@@ -1,10 +1,9 @@
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.0.2
   Exclude:
     - spec/spec_helper.rb
     - simplecov-lcov/**/*.rb
-    - cli_build.rb
 Metrics/BlockLength:
   IgnoredMethods: ['describe', 'context']
   Exclude:
-    - lib/handler_spec.rb
+    - spec/lib/handler_spec.rb
