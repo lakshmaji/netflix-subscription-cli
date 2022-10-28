@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './geektrust'
+require './main'
 require 'rspec/core/rake_task'
 
 task :default do |_t, _args|
