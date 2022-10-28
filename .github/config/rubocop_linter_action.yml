@@ -1,0 +1,6 @@
+check_name: "RuboCop Results"
+
+versions:
+  - rubocop
+
+rubocop_config_path: .rubocop.yml
