@@ -7,3 +7,6 @@ Metrics/BlockLength:
   IgnoredMethods: ['describe', 'context']
   Exclude:
     - spec/lib/handler_spec.rb
+    - spec/lib/core/manage_spec.rb
+    - spec/lib/messages_spec.rb
+    - spec/lib/factory/category_spec.rb
