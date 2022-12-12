@@ -9,6 +9,8 @@ This is a sample CLI application, which tries to illustrate the concepts of sub
 * Ruby 3.1.2
 * Bundler 2.2.22
 
+![geektrust](./.github/netflix.jpeg)
+
 ## Development
 
 ### Installation
